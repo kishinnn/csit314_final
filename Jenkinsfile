@@ -39,7 +39,7 @@ pipeline {
         
         stage('Stage 3: Deploy to K8s Pod') {
             steps {
-                sh 'echo "Updating Kubernetes Deployment..."'
+                sh 'kubectl rollout restart deployment helloworld-webapp"'
                 // In a real environment, you would use a K8s plugin or kubectl here
                 // sh 'kubectl rollout restart deployment/helloworld-webapp'
             }
