@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout Github') {
             steps {
                 // Task: checkout the github code
-                git branch: 'main', url: 'https://github.com/kishinnn/csit314_final.git'
+                git branch: 'main', url: 'https://github.com/kishinnn/csit314_final'
             }
         }
         
@@ -26,7 +26,6 @@ pipeline {
                     echo "Pushing jar to Nexus as ${NEXUS_USER}..."
             
                     // The command to upload the JAR using Maven
-                    // We pass the credentials via command line properties
                     sh """
                         ./mvnw deploy -DskipTests \
                         -DrepositoryId=nexus \
@@ -34,15 +33,16 @@ pipeline {
                         -Dusername=${NEXUS_USER} \
                         -Dpassword=${NEXUS_PWD}
                     """ 
-            }
-        }
+                } // This closes withCredentials
+            } // This closes steps
+        } // This closes stage
         
         stage('Stage 3: Deploy to K8s Pod') {
             steps {
-                sh 'kubectl rollout restart deployment helloworld-webapp"'
-                // In a real environment, you would use a K8s plugin or kubectl here
-                // sh 'kubectl rollout restart deployment/helloworld-webapp'
+                sh 'echo "Updating Kubernetes Deployment..."'
+                // Re-running this ensures the pods pull the newest image
+                sh 'kubectl rollout restart deployment helloworld-webapp'
             }
         }
-    }
-}
+    } // This closes all stages
+} // This closes the pipeline
