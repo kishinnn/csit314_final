@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout Github') {
             steps {
                 // Task: checkout the github code
-                git branch: 'main', url: 'https://github.com/yourusername/helloworld.git'
+                git branch: 'main', url: 'https://github.com/kishinnn/csit314_final.git'
             }
         }
         
