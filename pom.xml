@@ -20,6 +20,11 @@
 	<developers>
 		<developer/>
 	</developers>
+	<distributionManagement>
+        	<repository>
+        		<id>nexus</id> <url>http://nexus-service:8081/repository/maven-releases/</url>
+    		</repository>
+	</distributionManagement>
 	<scm>
 		<connection/>
 		<developerConnection/>
