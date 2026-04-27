@@ -37,7 +37,7 @@ pipeline {
                 withKubeConfig([credentialsId: 'kubeconfig-id']) {
                     sh "echo Updating Kubernetes Deployment..."
 		    //Create the deployment
-		    sh "/var/jenkins_home/bin/kubectl apply -f webapp-deployment.yaml --insecure-skip-tls-verify=true"
+		    sh "/var/jenkins_home/bin/kubectl apply -f webapp-deployment.yaml --validate=false --insecure-skip-tls-verify=true"
             
                     //Checks status
                     sh "/var/jenkins_home/bin/kubectl rollout status deployment helloworld-webapp --insecure-skip-tls-verify=true"
