@@ -25,13 +25,13 @@ pipeline {
         
         stage('Stage 2: Store to Nexus') {
             steps {
+                // Use single quotes for credentialsId, but the SH command MUST use double quotes to expand the variables
                 withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'NEXUS_PWD', usernameVariable: 'NEXUS_USER')]) {
-                    // We use -DrepositoryId=nexus to match the <id> in your pom.xml
                     sh "mvn deploy -DskipTests -DrepositoryId=nexus -Dusername=${NEXUS_USER} -Dpassword=${NEXUS_PWD}"
                 }
             }
         }
-        
+    
         stage('Stage 3: Deploy to K8s Pod') {
             steps {
                 sh 'echo "Updating Kubernetes Deployment..."'
