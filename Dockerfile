@@ -1,12 +1,9 @@
-# Use an official Java runtime as a parent image
-FROM eclipse-temurin:17-jdk-alpine
+# Use an OpenJDK runtime as the base image
+FROM openjdk:17-jdk-slim
 
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the executable jar file from the target directory to the container
-# Note: Ensure you have run './mvnw clean install' first to create this jar
+# The JAR file built by Maven will be in the 'target' folder
+# Change 'demo-0.0.1-SNAPSHOT.jar' to match your actual JAR name if different
 COPY target/*.jar app.jar
 
-# Run the jar file
+# Run the application
 ENTRYPOINT ["java", "-jar", "/app.jar"]
