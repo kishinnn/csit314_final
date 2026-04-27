@@ -11,8 +11,10 @@ pipeline {
         
         stage('Stage 1: Build Jar') {
             steps {
-                // Matches the command in your diagram
-                sh './mvnw clean install -DskipTests'
+                retry(3) {
+                    // Added TLS flags to stabilize the SSL handshake
+                    sh './mvnw clean install -DskipTests -Dhttps.protocols=TLSv1.2,TLSv1.3'
+                }
             }
         }
         
