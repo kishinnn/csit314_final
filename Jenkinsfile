@@ -18,7 +18,7 @@ pipeline {
             steps {
                 retry(3) {
                     // Added TLS flags to stabilize the SSL handshake
-                    sh './mvnw clean install -DskipTests -Dhttps.protocols=TLSv1.2,TLSv1.3'
+                    sh 'mvn clean install -DskipTests -Dhttps.protocols=TLSv1.2,TLSv1.3'
                 }
             }
         }
