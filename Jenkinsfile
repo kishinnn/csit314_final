@@ -34,17 +34,13 @@ pipeline {
     
         stage('Stage 3: Deploy to K8s Pod') {
             steps {
-                // This block handles the connection to your cluster automatically
                 withKubeConfig([credentialsId: 'kubeconfig-id']) {
                     sh "echo Updating Kubernetes Deployment..."
             
-                    // This will now work because the plugin provides the context
-                    sh "kubectl rollout restart deployment helloworld-webapp"
-            
-                    // Optional: Verify the status
-                    sh "kubectl rollout status deployment helloworld-webapp"
+                    // Use the full path to the file we just moved
+                    sh "/var/jenkins_home/bin/kubectl rollout restart deployment helloworld-webapp"
                 }
-             }
+            }
         }
     } // This closes all stages
 } // This closes the pipeline
