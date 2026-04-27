@@ -36,9 +36,11 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig-id']) {
                     sh "echo Updating Kubernetes Deployment..."
+		    //Create the deployment
+		    sh "/var/jenkins_home/bin/kubectl apply -f deployment.yaml"
             
-                    // Use the full path to the file we just moved
-                    sh "/var/jenkins_home/bin/kubectl rollout restart deployment helloworld-webapp"
+                    //Checks status
+                    sh "/var/jenkins_home/bin/kubectl rollout status deployment helloworld-webapp"
                 }
             }
         }
