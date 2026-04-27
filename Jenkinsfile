@@ -34,10 +34,17 @@ pipeline {
     
         stage('Stage 3: Deploy to K8s Pod') {
             steps {
-                sh 'echo "Updating Kubernetes Deployment..."'
-                // Re-running this ensures the pods pull the newest image
-                sh 'kubectl rollout restart deployment helloworld-webapp'
-            }
+                // This block handles the connection to your cluster automatically
+                withKubeConfig([credentialsId: 'kubeconfig-id']) {
+                    sh "echo Updating Kubernetes Deployment..."
+            
+                    // This will now work because the plugin provides the context
+                    sh "kubectl rollout restart deployment helloworld-webapp"
+            
+                    // Optional: Verify the status
+                    sh "kubectl rollout status deployment helloworld-webapp"
+                }
+             }
         }
     } // This closes all stages
 } // This closes the pipeline
