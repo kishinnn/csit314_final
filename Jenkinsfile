@@ -1,6 +1,11 @@
 pipeline {
     agent any
     
+    tools {
+        // This MUST match the 'Name' you gave in Global Tool Configuration
+        maven 'Maven 3' 
+    }
+
     stages {
         stage('Checkout Github') {
             steps {
