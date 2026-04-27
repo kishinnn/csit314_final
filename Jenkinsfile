@@ -25,24 +25,12 @@ pipeline {
         
         stage('Stage 2: Store to Nexus') {
             steps {
-                // This block securely binds your Jenkins credentials to variables
-                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', 
-                                 passwordVariable: 'NEXUS_PWD', 
-                                 usernameVariable: 'NEXUS_USER')]) {
-            
-                    echo "Pushing jar to Nexus as ${NEXUS_USER}..."
-            
-                    // The command to upload the JAR using Maven
-                    sh """
-                        ./mvnw deploy -DskipTests \
-                        -DrepositoryId=nexus \
-                        -Durl=http://nexus-service:8081/repository/maven-releases/ \
-                        -Dusername=${NEXUS_USER} \
-                        -Dpassword=${NEXUS_PWD}
-                    """ 
-                } // This closes withCredentials
-            } // This closes steps
-        } // This closes stage
+                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'NEXUS_PWD', usernameVariable: 'NEXUS_USER')]) {
+                    // We use -DrepositoryId=nexus to match the <id> in your pom.xml
+                    sh "mvn deploy -DskipTests -DrepositoryId=nexus -Dusername=${NEXUS_USER} -Dpassword=${NEXUS_PWD}"
+                }
+            }
+        }
         
         stage('Stage 3: Deploy to K8s Pod') {
             steps {

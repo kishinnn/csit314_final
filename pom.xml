@@ -21,9 +21,10 @@
 		<developer/>
 	</developers>
 	<distributionManagement>
-        	<repository>
-        		<id>nexus</id> <url>http://nexus-service:8081/repository/maven-snapshots/</url>
-    		</repository>
+        	<snapshotRepository>
+        		<id>nexus</id>
+                        <url>http://nexus-service:8081/repository/maven-snapshots/</url>
+    		</snapshotRepository>
 	</distributionManagement>
 	<scm>
 		<connection/>
