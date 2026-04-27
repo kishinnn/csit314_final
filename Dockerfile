@@ -1,5 +1,5 @@
 # Use an OpenJDK runtime as the base image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 # The JAR file built by Maven will be in the 'target' folder
 # Change 'demo-0.0.1-SNAPSHOT.jar' to match your actual JAR name if different
